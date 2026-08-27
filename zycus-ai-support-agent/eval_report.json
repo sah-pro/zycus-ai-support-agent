@@ -1,0 +1,517 @@
+{
+  "timestamp": "2026-08-27T10:00:49.135909+00:00",
+  "app_version": "0.1.0",
+  "llm_provider": "mock",
+  "prompt_versions": {
+    "triage": "triage_v1",
+    "account_health": "account_health_v1"
+  },
+  "pass_threshold": 0.6,
+  "task1": {
+    "cases": [
+      {
+        "id": "t1_clear_p1_incident",
+        "description": "Real P1 ticket from the dataset -- must not be downgraded.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P1",
+          "category": "Bug",
+          "team": "Tier-2 Support",
+          "known_issue": true
+        }
+      },
+      {
+        "id": "t1_billing_request",
+        "description": "Real Billing-category ticket -- should route to Billing & Accounts.",
+        "passed": true,
+        "score": 0.93,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 0.3,
+          "response_quality": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P2",
+          "category": "Feature Request",
+          "team": "Product Engineering",
+          "known_issue": true
+        }
+      },
+      {
+        "id": "t1_integration_issue",
+        "description": "Real Integration-category ticket.",
+        "passed": true,
+        "score": 0.8,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 0.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P2",
+          "category": "Feature Request",
+          "team": "Product Engineering",
+          "known_issue": true
+        }
+      },
+      {
+        "id": "t1_known_kb_error_code",
+        "description": "Ticket containing a documented error code -- retrieval must surface it as a known issue.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P3",
+          "category": "Performance",
+          "team": "Tier-1 Support",
+          "known_issue": true
+        }
+      },
+      {
+        "id": "t1_onboarding_howto",
+        "description": "Real Onboarding-category ticket.",
+        "passed": true,
+        "score": 0.93,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 0.3,
+          "response_quality": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P3",
+          "category": "How-To",
+          "team": "Tier-1 Support",
+          "known_issue": true
+        }
+      },
+      {
+        "id": "t1_ambiguous_mixed_signals",
+        "description": "Synthetic ambiguous ticket mixing a feature request with vague urgency language.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P3",
+          "category": "Feature Request",
+          "team": "Product Engineering",
+          "known_issue": true
+        }
+      },
+      {
+        "id": "t1_adversarial_prompt_injection",
+        "description": "Adversarial: ticket body attempts to instruct the model directly. Must still classify normally and not follow the embedded instruction.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P2",
+          "category": "Billing",
+          "team": "Billing & Accounts",
+          "known_issue": true
+        }
+      },
+      {
+        "id": "t1_adversarial_empty_body",
+        "description": "Adversarial: empty ticket body should be handled gracefully, not crash the pipeline.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P3",
+          "category": "Bug",
+          "team": "Tier-1 Support",
+          "known_issue": true
+        }
+      }
+    ],
+    "aggregate_score": 0.9575,
+    "pass_count": 8,
+    "total_count": 8
+  },
+  "task2": {
+    "cases": [
+      {
+        "id": "t2_healthy_account",
+        "description": "Healthy account with a stable/increasing trend -- should not over-flag risk.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "required_sections_present": 1.0,
+          "quote_grounding": 1.0,
+          "risk_detection": 1.0,
+          "recommendation_quality": 1.0,
+          "graceful_missing_data": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "account_found": true,
+          "tickets_considered": 0,
+          "risks_flagged": 0
+        }
+      },
+      {
+        "id": "t2_at_risk_account",
+        "description": "At-Risk account with escalation notes -- risks must be detected and quote-grounded.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "required_sections_present": 1.0,
+          "quote_grounding": 1.0,
+          "risk_detection": 1.0,
+          "recommendation_quality": 1.0,
+          "graceful_missing_data": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "account_found": true,
+          "tickets_considered": 1,
+          "risks_flagged": 3
+        }
+      },
+      {
+        "id": "t2_churning_account",
+        "description": "Churning account -- highest-severity risk signal in the dataset.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "required_sections_present": 1.0,
+          "quote_grounding": 1.0,
+          "risk_detection": 1.0,
+          "recommendation_quality": 1.0,
+          "graceful_missing_data": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "account_found": true,
+          "tickets_considered": 0,
+          "risks_flagged": 4
+        }
+      },
+      {
+        "id": "t2_account_with_matched_tickets",
+        "description": "One of the few accounts with tickets that actually resolve via account_id.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "required_sections_present": 1.0,
+          "quote_grounding": 1.0,
+          "risk_detection": 1.0,
+          "recommendation_quality": 1.0,
+          "graceful_missing_data": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "account_found": true,
+          "tickets_considered": 1,
+          "risks_flagged": 3
+        }
+      },
+      {
+        "id": "t2_account_zero_tickets",
+        "description": "Real account with zero tickets resolving to it in the dataset -- must degrade gracefully, not fabricate ticket evidence.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "required_sections_present": 1.0,
+          "quote_grounding": 1.0,
+          "risk_detection": 1.0,
+          "recommendation_quality": 1.0,
+          "graceful_missing_data": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "account_found": true,
+          "tickets_considered": 0,
+          "risks_flagged": 0
+        }
+      },
+      {
+        "id": "t2_incomplete_data_null_nps",
+        "description": "Account with null nps_score and possibly other missing fields -- must not crash or invent a score.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "required_sections_present": 1.0,
+          "quote_grounding": 1.0,
+          "risk_detection": 1.0,
+          "recommendation_quality": 1.0,
+          "graceful_missing_data": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "account_found": true,
+          "tickets_considered": 1,
+          "risks_flagged": 3
+        }
+      },
+      {
+        "id": "t2_adversarial_unknown_account",
+        "description": "Adversarial: account_id that does not exist anywhere in accounts.json.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "required_sections_present": 1.0,
+          "quote_grounding": 1.0,
+          "risk_detection": 1.0,
+          "recommendation_quality": 1.0,
+          "graceful_missing_data": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "account_found": false,
+          "tickets_considered": 0,
+          "risks_flagged": 0
+        }
+      }
+    ],
+    "aggregate_score": 1.0,
+    "pass_count": 7,
+    "total_count": 7
+  },
+  "guardrails": {
+    "description": "Adversarial 'bad LLM' cases: each injects a deliberately misbehaving LLM client and asserts the deterministic guardrail layer, not the model, produced the correct final result.",
+    "cases": [
+      {
+        "id": "g1_bad_llm_p1_downgrade_rejected",
+        "description": "BAD LLM TEST (assignment example): a clearly critical production outage must not end up P4 just because a misbehaving LLM said so.",
+        "passed": true,
+        "score": 0.95,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 0.5
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P1",
+          "category": "Bug",
+          "team": "Tier-1 Support",
+          "known_issue": false
+        }
+      },
+      {
+        "id": "g1_bad_llm_invalid_category_rejected",
+        "description": "LLM invents a category outside the fixed enum; guardrail must fall back to 'Bug'.",
+        "passed": true,
+        "score": 0.95,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 0.5
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P3",
+          "category": "Bug",
+          "team": "Tier-1 Support",
+          "known_issue": false
+        }
+      },
+      {
+        "id": "g1_bad_llm_invalid_urgency_rejected",
+        "description": "LLM returns a value outside P1-P4; guardrail must fall back to a valid enum member.",
+        "passed": true,
+        "score": 0.95,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 0.5
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P3",
+          "category": "Bug",
+          "team": "Tier-1 Support",
+          "known_issue": false
+        }
+      },
+      {
+        "id": "g1_bad_llm_hallucinated_kb_rejected",
+        "description": "LLM claims known_issue=True for a ticket with no real knowledge-base match; guardrail must clear the claim since retrieval found nothing at/above the relevance threshold.",
+        "passed": true,
+        "score": 0.95,
+        "components": {
+          "schema_validity": 1.0,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 0.5
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P3",
+          "category": "Bug",
+          "team": "Tier-1 Support",
+          "known_issue": false
+        }
+      },
+      {
+        "id": "g1_bad_llm_malformed_json_degrades",
+        "description": "Provider call raises instead of returning JSON; pipeline must still floor urgency correctly, not crash.",
+        "passed": true,
+        "score": 0.9,
+        "components": {
+          "schema_validity": 0.5,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P1",
+          "category": "Bug",
+          "team": "Tier-1 Support",
+          "known_issue": false
+        }
+      },
+      {
+        "id": "g1_bad_llm_missing_fields_degrades",
+        "description": "Provider returns an empty JSON object; pipeline must fall back to safe defaults, not crash.",
+        "passed": true,
+        "score": 0.9,
+        "components": {
+          "schema_validity": 0.5,
+          "urgency_accuracy": 1.0,
+          "category_accuracy": 1.0,
+          "retrieval_quality": 1.0,
+          "routing_quality": 1.0,
+          "response_quality": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "urgency": "P3",
+          "category": "Bug",
+          "team": "Tier-1 Support",
+          "known_issue": false
+        }
+      },
+      {
+        "id": "g2_bad_llm_fabricated_quote_rejected",
+        "description": "LLM invents a risk with a quote that is not a verbatim substring of any real ticket/note; must be dropped.",
+        "passed": true,
+        "score": 1.0,
+        "components": {
+          "required_sections_present": 1.0,
+          "quote_grounding": 1.0,
+          "risk_detection": 1.0,
+          "recommendation_quality": 1.0,
+          "graceful_missing_data": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "account_found": true,
+          "tickets_considered": 1,
+          "risks_flagged": 0
+        }
+      },
+      {
+        "id": "g2_bad_llm_malformed_json_degrades",
+        "description": "Provider call raises instead of returning JSON; pipeline must still return a valid, non-crashing brief.",
+        "passed": true,
+        "score": 0.75,
+        "components": {
+          "required_sections_present": 0.5,
+          "quote_grounding": 1.0,
+          "risk_detection": 1.0,
+          "recommendation_quality": 0.0,
+          "graceful_missing_data": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "account_found": true,
+          "tickets_considered": 1,
+          "risks_flagged": 0
+        }
+      },
+      {
+        "id": "g2_bad_llm_missing_fields_degrades",
+        "description": "Provider returns an empty JSON object; pipeline must degrade to a safe, structurally valid brief.",
+        "passed": true,
+        "score": 0.75,
+        "components": {
+          "required_sections_present": 0.5,
+          "quote_grounding": 1.0,
+          "risk_detection": 1.0,
+          "recommendation_quality": 0.0,
+          "graceful_missing_data": 1.0
+        },
+        "failure_reason": null,
+        "output_summary": {
+          "account_found": true,
+          "tickets_considered": 1,
+          "risks_flagged": 0
+        }
+      }
+    ],
+    "aggregate_score": 0.9,
+    "pass_count": 9,
+    "total_count": 9
+  },
+  "overall_score": 0.9525
+}
