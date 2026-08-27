@@ -1,5 +1,0 @@
-{
-  "subject": "Unable to connect DataBridge Pro to Connectors",
-  "body": "Hi team,\n\nWe're experiencing a critical issue with DataBridge Pro. Our Connectors pipeline has been failing since approximately yesterday morning. Error message: 'ERR_CONNECTION_TIMEOUT after 30s'\n\nThis is impacting 47 users in our Engineering team. We've tried restarting the service and clearing the cache but the issue persists.\n\nEnvironment: Production\nVersion: 3.1.2\n\nPlease advise urgently.",
-  "ticket_id": "TKT-DEMO-1"
-}
